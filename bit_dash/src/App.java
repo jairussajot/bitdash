@@ -20,7 +20,7 @@ public class App {
             System.out.println("No scoreboard yet");
         }else if (menu_select.equals("Quit")) {
             System.out.println("Bye");
-            System.out.print("jairus");
+
             System.exit(0);
         }
         scanner.close();

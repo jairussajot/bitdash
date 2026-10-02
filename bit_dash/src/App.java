@@ -1,5 +1,8 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -50,89 +53,47 @@ class Menu{
 }
 
 class Game{
-    public void generateEasyProblem(){
-        Menu menu = new Menu();
-        Random rand = new Random();
-        Scanner scanner = new Scanner(System.in);
-        int count = 0;
-        int score = 0;
-
-        while (count < 10) {
-            int randomDecimal = rand.nextInt(16);
-            String binaryStr = Integer.toBinaryString(randomDecimal);
-            System.out.println("Convert to binary: "+ randomDecimal);
-            String binaryAnswer = scanner.nextLine();
-
-            if (binaryAnswer.equals(binaryStr)) {
-                System.out.println("Correct");
-                score += 1;
-            }else{
-                System.out.println("Wrong");
-                System.out.println(binaryStr);
-            }
-            
-            count += 1;
-        }
+    public void selectMode(){
+        System.out.println("---Select Mode---");
+        System.out.println("+++Bimary to Decimal+++");
+        System.out.println("+++Decimal to Binary+++");
+    }
+    private void selectDifficulty(String dfclty){
+        int bits = 0;
         
-        System.out.println("+++++++++++++++++");
-        System.out.println("Score: " + score);
-        menu.show();
+        if (dfclty.equals("easy")) {
+            bits = 4;
+        }else if (dfclty.equals("medium")) {
+            bits = 6;
+        }else if (dfclty.equals("difficult")) {
+            bits = 8;
+        }else{
+            System.err.println("Invalid input");
+        }
+
+        return bits;
+    }
+    private List<Integer> generateProblems(int bits){
+        List<Integer> numbers = new ArrayList<>();
+
+        int max = (1 << bits) - 1;
+
+        for (int i = 0; i <= max; i++) {
+            numbers.add(i);
+        }
+
+        Collections.shuffle(numbers);
+
+        return numbers;
     }
 
-    public void generateMediumProblem(){
-        Menu menu = new Menu();
-        Random rand = new Random();
-        Scanner scanner = new Scanner(System.in);
-        int count = 0;
-        int score = 0;
+    private void binarytoDecimal(){
 
-        while (count < 10) {
-            int randomDecimal = rand.nextInt(64);
-            String binaryStr = Integer.toBinaryString(randomDecimal);
-            System.out.println("Convert to binary: "+ randomDecimal);
-            String binaryAnswer = scanner.nextLine();
-
-            if (binaryAnswer.equals(binaryStr)) {
-                System.out.println("Correct");
-                score += 1;
-            }else{
-                System.out.println("Wrong");
-                System.out.println(binaryStr);
-            }
-            
-            count += 1;
-        }
-        
-        System.out.println("+++++++++++++++++");
-        System.out.println("Score: " + score);
-        menu.show();
     }
-    public void generateDifficultProblem(){
-        Menu menu = new Menu();
-        Random rand = new Random();
-        Scanner scanner = new Scanner(System.in);
-        int count = 0;
-        int score = 0;
+    private void decimaltoBinary(){
 
-        while (count < 10) {
-            int randomDecimal = rand.nextInt(256);
-            String binaryStr = Integer.toBinaryString(randomDecimal);
-            System.out.println("Convert to binary: "+ randomDecimal);
-            String binaryAnswer = scanner.nextLine();
+    }
+    private void timeElapsed(){
 
-            if (binaryAnswer.equals(binaryStr)) {
-                System.out.println("Correct");
-                score += 1;
-            }else{
-                System.out.println("Wrong");
-                System.out.println(binaryStr);
-            }
-            
-            count += 1;
-        }
-        
-        System.out.println("+++++++++++++++++");
-        System.out.println("Score: " + score);
-        menu.show();
     }
 }

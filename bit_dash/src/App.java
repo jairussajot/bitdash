@@ -2,6 +2,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
 
 public class App {
     public static void main(String[] args) {
@@ -17,9 +20,11 @@ public class App {
 class Menu {
     private Scanner scanner;
     private Game game;
+    private Scoreboard scoreboard;
 
     public Menu(Scanner scanner) {
         this.scanner = scanner;
+        scoreboard = new Scoreboard();
         this.game = new Game(scanner);
     }
 
@@ -38,7 +43,15 @@ class Menu {
 
             if (menu_select.equalsIgnoreCase("Start")) {
 
-                game.selectMode();
+                System.out.print("Enter your name: ");
+                String name = scanner.nextLine();
+
+                Score result = game.selectMode(name);
+
+                if (result != null) {
+                    scoreboard.addScore(result);
+                }
+
 
             } else if (menu_select.equalsIgnoreCase("Instruction")) {
 
@@ -46,7 +59,7 @@ class Menu {
 
             } else if (menu_select.equalsIgnoreCase("Scoreboard")) {
 
-                System.out.println("No scoreboard yet.");
+                scoreboard.show();
 
             } else if (menu_select.equalsIgnoreCase("Quit")) {
 
@@ -72,7 +85,7 @@ class Game {
         this.scanner = scanner;
     }
 
-    public void selectMode() {
+    public Score selectMode(String name) {
         System.out.println("---Select Mode---");
         System.out.println("+++Binary to Decimal (Enter 1)+++");
         System.out.println("+++Decimal to Binary (Enter 2)+++");
@@ -91,14 +104,17 @@ class Game {
 
         if (bits == 0) {
             System.out.println("Invalid difficulty.");
+            return null;
         } 
 
+
         if (mode.equals("1")) {
-            binarytoDecimal(bits);
+            return binarytoDecimal(name,bits);
         } else if (mode.equals("2")) {
-            decimaltoBinary(bits);
+            return decimaltoBinary(name,bits);
         } else {
             System.out.println("Invalid mode.");
+            return null;
         }
     }
     private int selectDifficulty(String dfclty) {
@@ -129,7 +145,7 @@ class Game {
     }
 
 
-    private void binarytoDecimal(int bits) {
+    private Score binarytoDecimal(String name, int bits) {
         int count = 0;
         int score = 0;
 
@@ -164,9 +180,11 @@ class Game {
         System.out.printf("Time: %.2f seconds%n", time);
         System.out.println("Score: " + score);
         System.out.println("+++++++++++++++++");
+
+        return new Score(name, score, time);
     }
 
-    private void decimaltoBinary(int bits) {
+    private Score decimaltoBinary(String name, int bits) {
 
         int count = 0;
         int score = 0;
@@ -206,6 +224,8 @@ class Game {
         System.out.printf("Time: %.2f seconds%n", time);
         System.out.println("Score: " + score);
         System.out.println("+++++++++++++++++");
+
+        return new Score(name, score, time);
     }
 
 
@@ -213,5 +233,98 @@ class Game {
         long endTime = System.nanoTime();
 
         return (endTime - startTime) / 1_000_000_000.0;
+    }
+
+}
+
+class Score {
+
+    String name;
+    int score;
+    double time;
+
+    public Score(String name, int score, double time) {
+        this.name = name;
+        this.score = score;
+        this.time = time;
+    }
+}
+
+
+class Scoreboard {
+
+    private List<Score> scores;
+
+    public Scoreboard() {
+        scores = new ArrayList<>();
+        loadScores();
+    }
+
+    public void addScore(Score score) {
+        scores.add(score);
+        saveScore(score);
+    }
+
+    private void saveScore(Score score) {
+        try {
+            FileWriter writer = new FileWriter("scores.csv", true);
+
+            writer.write(
+                score.name + "," +
+                score.score + "," +
+                score.time + "\n"
+            );
+
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.println("Error saving score.");
+        }
+    }
+
+    private void loadScores() {
+        File file = new File("scores.csv");
+
+        if (!file.exists()) {
+            return;
+        }
+
+        try {
+            Scanner reader = new Scanner(file);
+
+            while (reader.hasNextLine()) {
+
+                String line = reader.nextLine();
+                String[] data = line.split(",");
+
+                String name = data[0];
+                int score = Integer.parseInt(data[1]);
+                double time = Double.parseDouble(data[2]);
+
+                scores.add(new Score(name, score, time));
+            }
+
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.println("Error loading scores.");
+        }
+    }
+
+    public void show() {
+        if (scores.isEmpty()) {
+            System.out.println("No scores yet.");
+            return;
+        }
+
+        System.out.println("\n===== SCOREBOARD =====");
+
+        for (Score score : scores) {
+            System.out.println(
+                score.name + " - " +
+                score.score + " - " +
+                score.time + "s"
+            );
+        }
     }
 }

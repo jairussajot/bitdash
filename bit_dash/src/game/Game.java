@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Game {
-
     private Scanner scanner;
 
     public Game(Scanner scanner) {
@@ -14,10 +13,12 @@ public class Game {
     }
 
     public Score selectMode(String name) {
+
         System.out.println("---Select Mode---");
         System.out.println("+++Binary to Decimal (Enter 1)+++");
         System.out.println("+++Decimal to Binary (Enter 2)+++");
         System.out.print("Select mode: ");
+
         String mode = scanner.nextLine();
 
         System.out.println("\n-Select Difficulty-");
@@ -26,32 +27,51 @@ public class Game {
         System.out.println("Difficult");
         System.out.print("Enter Difficulty: ");
 
-        String slct_dff = scanner.nextLine();
+        String difficulty = scanner.nextLine();
 
-        int bits = selectDifficulty(slct_dff);
+        int bits = selectDifficulty(difficulty);
 
         if (bits == 0) {
             System.out.println("Invalid difficulty.");
             return null;
-        } 
-
+        }
 
         if (mode.equals("1")) {
-            return binarytoDecimal(name,bits);
+
+            return binarytoDecimal(
+                name,
+                "Binary to Decimal",
+                difficulty,
+                bits
+            );
+
         } else if (mode.equals("2")) {
-            return decimaltoBinary(name,bits);
+
+            return decimaltoBinary(
+                name,
+                "Decimal to Binary",
+                difficulty,
+                bits
+            );
+
         } else {
+
             System.out.println("Invalid mode.");
             return null;
         }
     }
-    private int selectDifficulty(String dfclty) {
-        if (dfclty.equalsIgnoreCase("Easy")) {
+
+    private int selectDifficulty(String difficulty) {
+
+        if (difficulty.equalsIgnoreCase("Easy")) {
             return 4;
-        } else if (dfclty.equalsIgnoreCase("Medium")) {
+
+        } else if (difficulty.equalsIgnoreCase("Medium")) {
             return 6;
-        } else if (dfclty.equalsIgnoreCase("Difficult")) {
+
+        } else if (difficulty.equalsIgnoreCase("Difficult")) {
             return 8;
+
         } else {
             return 0;
         }
@@ -72,8 +92,13 @@ public class Game {
         return numbers;
     }
 
+    private Score binarytoDecimal(
+        String name,
+        String mode,
+        String difficulty,
+        int bits
+    ) {
 
-    private Score binarytoDecimal(String name, int bits) {
         int count = 0;
         int score = 0;
 
@@ -88,12 +113,16 @@ public class Game {
 
             System.out.println("Convert to decimal: " + binary);
             System.out.print("Enter your Answer: ");
+
             String answer = scanner.nextLine();
 
             if (answer.equals(String.valueOf(decimal))) {
+
                 System.out.println("----Correct----");
                 score++;
+
             } else {
+
                 System.out.println("----Wrong----");
                 System.out.println("Correct Answer: " + decimal);
                 System.out.println("-------------");
@@ -101,7 +130,7 @@ public class Game {
 
             count++;
         }
-        
+
         double time = timeElapsed(startTime);
 
         System.out.println("+++++++++++++++++");
@@ -109,10 +138,21 @@ public class Game {
         System.out.println("Score: " + score);
         System.out.println("+++++++++++++++++");
 
-        return new Score(name, score, time);
+        return new Score(
+            name,
+            mode,
+            difficulty,
+            score,
+            time
+        );
     }
 
-    private Score decimaltoBinary(String name, int bits) {
+    private Score decimaltoBinary(
+        String name,
+        String mode,
+        String difficulty,
+        int bits
+    ) {
 
         int count = 0;
         int score = 0;
@@ -124,17 +164,17 @@ public class Game {
         while (count < 10) {
 
             int randomDecimal = problems.get(count);
-
             String binaryStr = Integer.toBinaryString(randomDecimal);
 
             System.out.println("Convert to binary: " + randomDecimal);
             System.out.print("Enter your Answer: ");
+
             String binaryAnswer = scanner.nextLine();
 
             if (binaryAnswer.equals(binaryStr)) {
 
                 System.out.println("----Correct----");
-                score += 1;
+                score++;
 
             } else {
 
@@ -150,19 +190,22 @@ public class Game {
 
         System.out.println("+++++++++++++++++");
         System.out.printf("Time: %.2f seconds%n", time);
-        System.out.println("Score: " + score);
         System.out.println("+++++++++++++++++");
+        System.out.println("Score: " + score);
 
-        return new Score(name, score, time);
+        return new Score(
+            name,
+            mode,
+            difficulty,
+            score,
+            time
+        );
     }
 
-
     private double timeElapsed(long startTime) {
+
         long endTime = System.nanoTime();
 
         return (endTime - startTime) / 1_000_000_000.0;
     }
-
 }
-
-

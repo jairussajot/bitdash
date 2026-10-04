@@ -1,4 +1,4 @@
-# bitdash
+# Bit-Dash
 Bit-Dash is a mental math game designed to help users practice converting numbers between the binary (base-2) and decimal (base-10) number systems. The game generates random numbers and challenges users to provide the correct conversion within a given amount of time. Through repeated practice, Bit-Dash aims to improve the user's familiarity, speed, and accuracy in binary-to-decimal and decimal-to-binary conversions.\
 
 # Objectives
@@ -24,8 +24,10 @@ Bit-Dash is a mental math game designed to help users practice converting number
 
 # Setup
 
-Run **GuiApp.java**
+1. Run **GuiApp.java**
 ```bash
 javac GuiApp.java
 java GuiApp
 ```
+
+2. Play the game, follow the instructions and try your best to beat your old PB.

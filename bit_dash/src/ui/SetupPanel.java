@@ -1,0 +1,105 @@
+package ui;
+
+import game.GameSession.Difficulty;
+import game.GameSession.Mode;
+
+import javax.swing.*;
+import java.awt.*;
+
+/** Pick a name, mode and difficulty, then start a round. */
+class SetupPanel extends JPanel {
+
+    private static final Mode[] MODES = Mode.values();
+    private static final Difficulty[] DIFFICULTIES = Difficulty.values();
+
+    private final JTextField nameField = Theme.field(16);
+    private final Theme.ChoiceBar modeBar;
+    private final Theme.ChoiceBar difficultyBar;
+    private final JLabel difficultyHint =
+            Theme.label(" ", Theme.sans(Font.PLAIN, 14), Theme.MUTED);
+
+    SetupPanel(MainWindow window) {
+        setBackground(Theme.BG);
+        setLayout(new GridBagLayout());
+
+        String[] modeLabels = new String[MODES.length];
+        for (int i = 0; i < MODES.length; i++) {
+            modeLabels[i] = MODES[i].getLabel();
+        }
+        String[] diffLabels = new String[DIFFICULTIES.length];
+        for (int i = 0; i < DIFFICULTIES.length; i++) {
+            diffLabels[i] = DIFFICULTIES[i].getLabel();
+        }
+
+        modeBar = new Theme.ChoiceBar(modeLabels);
+        difficultyBar = new Theme.ChoiceBar(diffLabels);
+        difficultyBar.setOnChange(this::updateHint);
+        updateHint();
+
+        JPanel box = new JPanel();
+        box.setOpaque(false);
+        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+
+        addCentered(box, Theme.label("New game", Theme.sans(Font.BOLD, 32), Theme.TEXT));
+        box.add(Box.createVerticalStrut(24));
+
+        addCentered(box, Theme.label("Your name", Theme.sans(Font.BOLD, 14), Theme.MUTED));
+        box.add(Box.createVerticalStrut(6));
+        nameField.setMaximumSize(new Dimension(320, 44));
+        nameField.setHorizontalAlignment(JTextField.CENTER);
+        nameField.addActionListener(e -> start(window));
+        addCentered(box, nameField);
+        box.add(Box.createVerticalStrut(24));
+
+        addCentered(box, Theme.label("Mode", Theme.sans(Font.BOLD, 14), Theme.MUTED));
+        box.add(Box.createVerticalStrut(6));
+        addCentered(box, modeBar);
+        box.add(Box.createVerticalStrut(24));
+
+        addCentered(box, Theme.label("Difficulty", Theme.sans(Font.BOLD, 14), Theme.MUTED));
+        box.add(Box.createVerticalStrut(6));
+        addCentered(box, difficultyBar);
+        box.add(Box.createVerticalStrut(8));
+        addCentered(box, difficultyHint);
+        box.add(Box.createVerticalStrut(28));
+
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
+        buttons.setOpaque(false);
+        Theme.Btn back = new Theme.Btn("Back", false);
+        back.addActionListener(e -> window.showMenu());
+        Theme.Btn go = new Theme.Btn("Start", true);
+        go.addActionListener(e -> start(window));
+        buttons.add(back);
+        buttons.add(go);
+        addCentered(box, buttons);
+
+        add(box);
+    }
+
+    void onShow() {
+        nameField.requestFocusInWindow();
+        nameField.selectAll();
+    }
+
+    private void start(MainWindow window) {
+        // scores.csv is comma separated, so keep commas out of the name.
+        String name = nameField.getText().replace(',', ' ').trim();
+        if (name.isEmpty()) {
+            name = "Player";
+        }
+        window.startGame(
+                name,
+                MODES[modeBar.getSelectedIndex()],
+                DIFFICULTIES[difficultyBar.getSelectedIndex()]);
+    }
+
+    private void updateHint() {
+        Difficulty d = DIFFICULTIES[difficultyBar.getSelectedIndex()];
+        difficultyHint.setText(d.getBits() + "-bit numbers (0 to " + d.getMaxValue() + ")");
+    }
+
+    private void addCentered(JPanel box, JComponent c) {
+        c.setAlignmentX(Component.CENTER_ALIGNMENT);
+        box.add(c);
+    }
+}

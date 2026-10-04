@@ -24,6 +24,11 @@ public class Scoreboard {
         saveScore(score);
     }
 
+    // Used by the GUI scoreboard screen
+    public List<Score> getScores() {
+        return java.util.Collections.unmodifiableList(scores);
+    }
+
     private void saveScore(Score score) {
 
         try {
@@ -61,24 +66,38 @@ public class Scoreboard {
             while (reader.hasNextLine()) {
 
                 String line = reader.nextLine();
+
+                // Skip blank or malformed lines instead of crashing.
+                if (line.isBlank()) {
+                    continue;
+                }
+
                 String[] data = line.split(",");
 
-                String name = data[0];
-                String mode = data[1];
-                String difficulty = data[2];
+                if (data.length < 5) {
+                    continue;
+                }
 
-                int score = Integer.parseInt(data[3]);
-                double time = Double.parseDouble(data[4]);
+                try {
+                    String name = data[0];
+                    String mode = data[1];
+                    String difficulty = data[2];
 
-                scores.add(
-                    new Score(
-                        name,
-                        mode,
-                        difficulty,
-                        score,
-                        time
-                    )
-                );
+                    int score = Integer.parseInt(data[3]);
+                    double time = Double.parseDouble(data[4]);
+
+                    scores.add(
+                        new Score(
+                            name,
+                            mode,
+                            difficulty,
+                            score,
+                            time
+                        )
+                    );
+                } catch (NumberFormatException e) {
+                    // bad number in this line, ignore it
+                }
             }
 
             reader.close();

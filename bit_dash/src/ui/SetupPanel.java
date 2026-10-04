@@ -31,9 +31,16 @@ class SetupPanel extends JPanel {
             diffLabels[i] = DIFFICULTIES[i].getLabel();
         }
 
+        SoundPlayer.playOnTyping(nameField, "typing.wav");
+        SoundPlayer.playOnDelete(nameField, "backspace.wav");
         modeBar = new Theme.ChoiceBar(modeLabels);
         difficultyBar = new Theme.ChoiceBar(diffLabels);
-        difficultyBar.setOnChange(this::updateHint);
+        difficultyBar.setOnChange(() -> {
+            SoundPlayer.play("selectdifficulty.wav");
+            updateHint();
+        });
+        updateHint();
+        modeBar.setOnChange(() -> SoundPlayer.play("selectmode.wav"));   // <-- add this line
         updateHint();
 
         JPanel box = new JPanel();
@@ -66,7 +73,10 @@ class SetupPanel extends JPanel {
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
         buttons.setOpaque(false);
         Theme.Btn back = new Theme.Btn("Back", false);
-        back.addActionListener(e -> window.showMenu());
+        back.addActionListener(e -> {
+            SoundPlayer.play("back.wav");
+            window.showMenu();
+        });
         Theme.Btn go = new Theme.Btn("Start", true);
         go.addActionListener(e -> start(window));
         buttons.add(back);
@@ -82,6 +92,7 @@ class SetupPanel extends JPanel {
     }
 
     private void start(MainWindow window) {
+        SoundPlayer.play("Start.wav");
         // scores.csv is comma separated, so keep commas out of the name.
         String name = nameField.getText().replace(',', ' ').trim();
         if (name.isEmpty()) {

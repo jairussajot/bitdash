@@ -54,8 +54,8 @@ class ScoreboardPanel extends JPanel {
         filters.add(diffBar);
         add(filters, BorderLayout.NORTH);
 
-        modeBar.setOnChange(this::refresh);
-        diffBar.setOnChange(this::refresh);
+        modeBar.setOnChange(this::filterChanged);
+        diffBar.setOnChange(this::filterChanged);
 
         // ---- table ----
         styleTable();
@@ -74,12 +74,21 @@ class ScoreboardPanel extends JPanel {
         add(body, BorderLayout.CENTER);
 
         // ---- back ----
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         buttons.setOpaque(false);
         Theme.Btn back = new Theme.Btn("Back", false);
-        back.addActionListener(e -> window.showMenu());
+        back.addActionListener(e -> {
+            SoundPlayer.play("back.wav");
+            window.showMenu();
+        });
         buttons.add(back);
         add(buttons, BorderLayout.SOUTH);
+    }
+
+    /** A filter button was clicked: click sound, then update the table. */
+    private void filterChanged() {
+        SoundPlayer.play("scoreboardfilterbuttons.wav");
+        refresh();
     }
 
     /** Re-reads the scores and applies the current filters. */

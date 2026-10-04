@@ -74,13 +74,17 @@ public class MainWindow extends JFrame {
 
     /** Called by GamePanel when all 10 questions are answered. */
     void finishGame(GameSession session) {
+        SoundPlayer.play("afterround.wav");
         scoreboard.addScore(session.toScore());
         resultPanel.show(session);
         cards.show(root, RESULT);
     }
 
     void quit() {
-        dispose();
-        System.exit(0);
+        // Hide the window now, but wait a moment so quit.wav can finish playing.
+        setVisible(false);
+        Timer wait = new Timer(1200, e -> System.exit(0));
+        wait.setRepeats(false);
+        wait.start();
     }
 }

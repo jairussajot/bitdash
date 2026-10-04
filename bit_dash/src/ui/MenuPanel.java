@@ -24,20 +24,23 @@ class MenuPanel extends JPanel {
         }
         box.add(Box.createVerticalStrut(36));
 
-        addButton(box, "Start", true, window::showSetup);
-        addButton(box, "Instructions", false, window::showInstructions);
-        addButton(box, "Scoreboard", false, window::showScoreboard);
-        addButton(box, "Quit", false, window::quit);
+        addButton(box, "Start", true, "menubuttons.wav", window::showSetup);
+        addButton(box, "Instructions", false, "menubuttons.wav", window::showInstructions);
+        addButton(box, "Scoreboard", false, "menubuttons.wav", window::showScoreboard);
+        addButton(box, "Quit", false, "quit.wav", window::quit);
 
         add(box);
     }
 
-    private void addButton(JPanel box, String text, boolean primary, Runnable action) {
+    private void addButton(JPanel box, String text, boolean primary, String sound, Runnable action) {
         Theme.Btn b = new Theme.Btn(text, primary);
         b.setAlignmentX(Component.CENTER_ALIGNMENT);
         b.setMaximumSize(new Dimension(260, 48));
         b.setPreferredSize(new Dimension(260, 48));
-        b.addActionListener(e -> action.run());
+        b.addActionListener(e -> {
+            SoundPlayer.play(sound);   // play this button's sound first
+            action.run();
+        });
         box.add(b);
         box.add(Box.createVerticalStrut(12));
     }

@@ -43,11 +43,20 @@ class ResultPanel extends JPanel {
         buttons.setOpaque(false);
         buttons.setBorder(new EmptyBorder(16, 0, 0, 0));
         Theme.Btn again = new Theme.Btn("Play again", true);
-        again.addActionListener(e -> window.showSetup());
+        again.addActionListener(e -> {
+            SoundPlayer.play("menubuttons.wav");
+            window.showSetup();
+        });
         Theme.Btn board = new Theme.Btn("Scoreboard", false);
-        board.addActionListener(e -> window.showScoreboard());
+        board.addActionListener(e -> {
+            SoundPlayer.play("menubuttons.wav");
+            window.showScoreboard();
+        });
         Theme.Btn menu = new Theme.Btn("Menu", false);
-        menu.addActionListener(e -> window.showMenu());
+        menu.addActionListener(e -> {
+            SoundPlayer.play("back.wav");
+            window.showMenu();
+        });
         buttons.add(again);
         buttons.add(board);
         buttons.add(menu);

@@ -62,6 +62,8 @@ class GamePanel extends JPanel {
         input.setMaximumSize(new Dimension(320, 64));
         input.setPreferredSize(new Dimension(320, 64));
         input.addActionListener(e -> submit());
+        SoundPlayer.playOnTyping(input, "typing.wav");
+        SoundPlayer.playOnDelete(input, "backspace.wav");   
 
         for (JComponent c : new JComponent[] { instructionLabel, promptLabel, input, feedbackLabel }) {
             c.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -83,6 +85,7 @@ class GamePanel extends JPanel {
         buttons.setOpaque(false);
         Theme.Btn quit = new Theme.Btn("Quit to menu", false);
         quit.addActionListener(e -> {
+            SoundPlayer.play("back.wav");
             clock.stop();
             window.showMenu();
         });
@@ -140,6 +143,11 @@ class GamePanel extends JPanel {
         String prompt = session.getPrompt();
         String correct = session.getCorrectAnswer();
         boolean ok = session.submit(text);
+
+        // On the last question, afterround.wav plays instead (see MainWindow.finishGame)
+        if (!session.isFinished()) {
+            SoundPlayer.play(ok ? "correct.wav" : "wrong.wav");
+        }
 
         if (ok) {
             feedbackLabel.setForeground(Theme.GOOD);

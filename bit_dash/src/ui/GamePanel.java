@@ -86,6 +86,7 @@ class GamePanel extends JPanel {
         Theme.Btn quit = new Theme.Btn("Quit to menu", false);
         quit.addActionListener(e -> {
             SoundPlayer.play("back.wav");
+            SoundPlayer.stopMusic(); 
             clock.stop();
             window.showMenu();
         });
@@ -111,6 +112,7 @@ class GamePanel extends JPanel {
         feedbackLabel.setText(" ");
         refresh();
         clock.start();
+        SoundPlayer.startMusic("quiz.wav");   // music starts with the round
         input.requestFocusInWindow();
     }
 
@@ -159,6 +161,7 @@ class GamePanel extends JPanel {
 
         if (session.isFinished()) {
             clock.stop();
+            SoundPlayer.stopMusic();  
             window.finishGame(session);
         } else {
             refresh();

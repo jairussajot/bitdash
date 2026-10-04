@@ -20,7 +20,7 @@ class SetupPanel extends JPanel {
 
     SetupPanel(MainWindow window) {
         setBackground(Theme.BG);
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
 
         String[] modeLabels = new String[MODES.length];
         for (int i = 0; i < MODES.length; i++) {
@@ -33,14 +33,14 @@ class SetupPanel extends JPanel {
 
         SoundPlayer.playOnTyping(nameField, "typing.wav");
         SoundPlayer.playOnDelete(nameField, "backspace.wav");
+
         modeBar = new Theme.ChoiceBar(modeLabels);
         difficultyBar = new Theme.ChoiceBar(diffLabels);
         difficultyBar.setOnChange(() -> {
             SoundPlayer.play("selectdifficulty.wav");
             updateHint();
         });
-        updateHint();
-        modeBar.setOnChange(() -> SoundPlayer.play("selectmode.wav"));   // <-- add this line
+        modeBar.setOnChange(() -> SoundPlayer.play("selectdifficulty.wav"));
         updateHint();
 
         JPanel box = new JPanel();
@@ -83,7 +83,17 @@ class SetupPanel extends JPanel {
         buttons.add(go);
         addCentered(box, buttons);
 
-        add(box);
+        // the form stays centred in the window...
+        JPanel centre = new JPanel(new GridBagLayout());
+        centre.setOpaque(false);
+        centre.add(box);
+        add(centre, BorderLayout.CENTER);
+
+        // ...and the music button sits in the top-right corner
+        JPanel topBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 16, 12));
+        topBar.setOpaque(false);
+        topBar.add(new MusicButton());
+        add(topBar, BorderLayout.NORTH);
     }
 
     void onShow() {

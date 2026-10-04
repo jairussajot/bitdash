@@ -39,7 +39,11 @@ class GamePanel extends JPanel {
         bar.add(questionLabel, BorderLayout.WEST);
         scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
         bar.add(scoreLabel, BorderLayout.CENTER);
-        bar.add(timeLabel, BorderLayout.EAST);
+        JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
+        right.setOpaque(false);
+        right.add(timeLabel);
+        right.add(new MusicButton());
+        bar.add(right, BorderLayout.EAST);
 
         progress.setBorderPainted(false);
         progress.setForeground(Theme.ACCENT);

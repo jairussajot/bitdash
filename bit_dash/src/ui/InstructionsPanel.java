@@ -39,7 +39,7 @@ class InstructionsPanel extends JPanel {
         };
 
         for (String line : lines) {
-            JLabel l = Theme.label("•  " + line, Theme.sans(Font.PLAIN, 16), Theme.MUTED);
+            JLabel l = Theme.label("-  " + line, Theme.sans(Font.PLAIN, 16), Theme.MUTED);
             l.setAlignmentX(Component.LEFT_ALIGNMENT);
             list.add(l);
             list.add(Box.createVerticalStrut(10));

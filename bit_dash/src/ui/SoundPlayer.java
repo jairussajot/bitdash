@@ -4,13 +4,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Plays short sound effects and looping music from the "sfx" folder.
@@ -23,11 +24,16 @@ public class SoundPlayer {
 
     private static final String FOLDER = "sfx/";
 
+    // Each sound effect is loaded ONCE and reused. Opening a new audio line for every
+    // key press was slow and sometimes failed on Windows, which made sounds go missing.
+    private static final Map<String, Clip> CLIPS = new HashMap<>();
+
     private static Clip music;                  // the background music currently loaded (or null)
     private static boolean musicMuted = false;  // true = the player turned the music off
 
     /** Plays a sound when Backspace or Delete is pressed while the field has text. */
     public static void playOnDelete(JTextField field, String fileName) {
+        loadClip(fileName);   // load it now, so key presses never have to wait for the file
         field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -42,6 +48,7 @@ public class SoundPlayer {
 
     /** Plays a sound every time a character is typed (or pasted) into the field. */
     public static void playOnTyping(JTextField field, String fileName) {
+        loadClip(fileName);   // load it now, so key presses never have to wait for the file
         field.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -117,21 +124,33 @@ public class SoundPlayer {
         return musicMuted;
     }
 
-    public static void play(String fileName) {
+    /** Plays a sound effect from the start. Playing it again cuts off the previous play. */
+    public static synchronized void play(String fileName) {
+        Clip clip = loadClip(fileName);
+        if (clip == null) {
+            return;   // missing file / no audio device: stay silent
+        }
+        clip.stop();                // if it is still playing from last time, cut it off
+        clip.setFramePosition(0);   // rewind to the beginning
+        clip.start();
+    }
+
+    /** Returns the loaded clip for a file, loading it the first time it is needed. */
+    private static synchronized Clip loadClip(String fileName) {
+        if (CLIPS.containsKey(fileName)) {
+            return CLIPS.get(fileName);   // may be null if loading failed before
+        }
+        Clip clip = null;
         try {
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             try (AudioInputStream in = AudioSystem.getAudioInputStream(new File(FOLDER + fileName))) {
                 clip.open(in);
             }
-            // free the memory once the sound has finished playing
-            clip.addLineListener(e -> {
-                if (e.getType() == LineEvent.Type.STOP) {
-                    clip.close();
-                }
-            });
-            clip.start();
         } catch (Exception e) {
-            // missing file / no audio device: ignore
+            clip = null;
+            System.out.println("Could not load sound " + fileName + ": " + e);   // TEMPORARY
         }
+        CLIPS.put(fileName, clip);
+        return clip;
     }
 }

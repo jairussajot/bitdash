@@ -157,10 +157,10 @@ class GamePanel extends JPanel {
 
         if (ok) {
             feedbackLabel.setForeground(Theme.GOOD);
-            feedbackLabel.setText("✓ Correct");
+            feedbackLabel.setText("Correct");
         } else {
             feedbackLabel.setForeground(Theme.BAD);
-            feedbackLabel.setText("✗ Wrong: " + prompt + " = " + correct);
+            feedbackLabel.setText("Wrong: " + prompt + " = " + correct);
         }
 
         if (session.isFinished()) {

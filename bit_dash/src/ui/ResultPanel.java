@@ -67,7 +67,7 @@ class ResultPanel extends JPanel {
         int total = GameSession.QUESTIONS;
         headline.setText(s.getScore() == total ? "Perfect round!" : "Round complete");
         scoreLabel.setText(s.getScore() + " / " + total);
-        detail.setText(String.format("%s  ·  %s  ·  %.2f seconds  ·  saved as %s",
+        detail.setText(String.format("%s  -  %s  -  %.2f seconds  -  saved as (%s)",
                 s.getMode().getLabel(), s.getDifficulty().getLabel(),
                 s.getElapsedSeconds(), s.getName()));
 
@@ -76,10 +76,10 @@ class ResultPanel extends JPanel {
         for (GameSession.Attempt a : s.getAttempts()) {
             String text;
             if (a.right) {
-                text = "✓  " + String.format("%2d", n) + ".  " + a.prompt + " = " + a.correct;
+                text = "Correct  " + String.format("%2d", n) + ".  " + a.prompt + " = " + a.correct;
             } else {
                 String yours = a.given.isEmpty() ? "(blank)" : a.given;
-                text = "✗  " + String.format("%2d", n) + ".  " + a.prompt + " = " + a.correct + "   (you answered " + yours + ")";
+                text = "Wrong    " + String.format("%2d", n) + ".  " + a.prompt + " = " + a.correct + "   (you answered " + yours + ")";
             }
             JLabel row = Theme.label(text, Theme.mono(Font.PLAIN, 15), a.right ? Theme.GOOD : Theme.BAD);
             row.setBorder(new EmptyBorder(3, 0, 3, 0));

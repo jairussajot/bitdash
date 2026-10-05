@@ -40,7 +40,7 @@ class SetupPanel extends JPanel {
             SoundPlayer.play("selectdifficulty.wav");
             updateHint();
         });
-        modeBar.setOnChange(() -> SoundPlayer.play("selectdifficulty.wav"));
+        modeBar.setOnChange(() -> SoundPlayer.play("selectmode.wav"));
         updateHint();
 
         JPanel box = new JPanel();

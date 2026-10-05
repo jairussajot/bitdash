@@ -12,17 +12,17 @@ Bit-Dash is a mental math game designed to help users practice converting number
 
     a. Solving Speed\
     b. Accuracy\
-    c. Critical Thinking\
+    c. Critical Thinking
 
 3. Strengthen the user's familiarity with the binary numbering system by providing randomly generated conversion problems.
 
     a. Conversion Accuracy \
-    b. Number of Correct Conversion\
+    b. Number of Correct Conversion
 
 4. Provide an engaging way to practice number-system conversion through a simple game-based approach.
 
    a. Number of Correct Answers\
-   b. Response time\
+   b. Response time
 
 
 # Setup

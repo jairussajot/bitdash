@@ -1,5 +1,5 @@
 # Bit-Dash
-Bit-Dash is a mental math game designed to help users practice converting numbers between the binary (base-2) and decimal (base-10) number systems. The game generates random numbers and challenges base through the choice of difficulty to provide the users with assistance on their skill level for a higher chance of a correct conversion within a given amount of time. Through repeated practice, Bit-Dash aims to improve the user's familiarity, speed, and accuracy in binary-to-decimal and decimal-to-binary conversions without much reliance on visual table and text-instructions.\
+Bit-Dash is a mental math game designed to help users practice converting numbers between the binary (base-2) and decimal (base-10) number systems. The game generates random numbers and challenges base through the choice of difficulty to provide the users with assistance on their skill level for a higher chance of a correct conversion within a given amount of time. Through repeated practice, Bit-Dash aims to improve the user's familiarity, speed, and accuracy in binary-to-decimal and decimal-to-binary conversions without much reliance on visual table and text-instructions.
 
 # Objectives
 

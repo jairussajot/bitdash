@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-/** Title screen with Start / Instructions / Scoreboard / Quit. */
+
 class MenuPanel extends JPanel {
 
     MenuPanel(MainWindow window) {
@@ -38,7 +38,7 @@ class MenuPanel extends JPanel {
         b.setMaximumSize(new Dimension(260, 48));
         b.setPreferredSize(new Dimension(260, 48));
         b.addActionListener(e -> {
-            SoundPlayer.play(sound);   // play this button's sound first
+            SoundPlayer.play(sound); 
             action.run();
         });
         box.add(b);

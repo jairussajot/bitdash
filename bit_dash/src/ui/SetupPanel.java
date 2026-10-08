@@ -6,7 +6,7 @@ import game.GameSession.Mode;
 import javax.swing.*;
 import java.awt.*;
 
-/** Pick a name, mode and difficulty, then start a round. */
+
 class SetupPanel extends JPanel {
 
     private static final Mode[] MODES = Mode.values();
@@ -83,13 +83,13 @@ class SetupPanel extends JPanel {
         buttons.add(go);
         addCentered(box, buttons);
 
-        // the form stays centred in the window...
+        
         JPanel centre = new JPanel(new GridBagLayout());
         centre.setOpaque(false);
         centre.add(box);
         add(centre, BorderLayout.CENTER);
 
-        // ...and the music button sits in the top-right corner
+        
         JPanel topBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 16, 12));
         topBar.setOpaque(false);
         topBar.add(new MusicButton());
@@ -103,7 +103,6 @@ class SetupPanel extends JPanel {
 
     private void start(MainWindow window) {
         SoundPlayer.play("Start.wav");
-        // scores.csv is comma separated, so keep commas out of the name.
         String name = nameField.getText().replace(',', ' ').trim();
         if (name.isEmpty()) {
             name = "Player";

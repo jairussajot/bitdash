@@ -24,7 +24,7 @@ public class Scoreboard {
         saveScore(score);
     }
 
-    // Used by the GUI scoreboard screen
+
     public List<Score> getScores() {
         return java.util.Collections.unmodifiableList(scores);
     }
@@ -67,7 +67,7 @@ public class Scoreboard {
 
                 String line = reader.nextLine();
 
-                // Skip blank or malformed lines instead of crashing.
+
                 if (line.isBlank()) {
                     continue;
                 }
@@ -96,7 +96,7 @@ public class Scoreboard {
                         )
                     );
                 } catch (NumberFormatException e) {
-                    // bad number in this line, ignore it
+                
                 }
             }
 
@@ -108,7 +108,6 @@ public class Scoreboard {
         }
     }
 
-    // Show every score
     public void show() {
 
         if (scores.isEmpty()) {
@@ -130,7 +129,6 @@ public class Scoreboard {
         }
     }
 
-    // Show scores matching mode and difficulty
     public void show(String selectedMode, String selectedDifficulty) {
 
         boolean found = false;

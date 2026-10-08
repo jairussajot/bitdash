@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-/** Short explanation of how to play. */
+
 class InstructionsPanel extends JPanel {
 
     InstructionsPanel(MainWindow window) {
@@ -14,14 +14,13 @@ class InstructionsPanel extends JPanel {
         box.setOpaque(false);
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
 
-        // Title: centered over everything below it
+
         JLabel title = Theme.label("How to play", Theme.sans(Font.BOLD, 32), Theme.TEXT);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         box.add(title);
         box.add(Box.createVerticalStrut(20));
 
-        // The bullets and the Back button live in their own panel, so they can
-        // share one left edge while the panel as a whole stays centered.
+
         JPanel list = new JPanel();
         list.setOpaque(false);
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));

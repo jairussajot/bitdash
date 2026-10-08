@@ -4,7 +4,7 @@ import game.GameSession;
 import javax.swing.*;
 import java.awt.*;
 
-/** The single application window. Swaps between screens with a CardLayout. */
+
 public class MainWindow extends JFrame {
 
     private static final String MENU = "menu";
@@ -47,7 +47,6 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    // ---- navigation -------------------------------------------------------
 
     void showMenu() {
         cards.show(root, MENU);
@@ -72,7 +71,6 @@ public class MainWindow extends JFrame {
         gamePanel.begin(new GameSession(name, mode, difficulty));
     }
 
-    /** Called by GamePanel when all 10 questions are answered. */
     void finishGame(GameSession session) {
         SoundPlayer.play("afterround.wav");
         scoreboard.addScore(session.toScore());
@@ -81,7 +79,6 @@ public class MainWindow extends JFrame {
     }
 
     void quit() {
-        // Hide the window now, but wait a moment so quit.wav can finish playing.
         setVisible(false);
         Timer wait = new Timer(1200, e -> System.exit(0));
         wait.setRepeats(false);

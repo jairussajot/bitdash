@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/** Shown after the 10th question: score, time and a per-question review. */
+
 class ResultPanel extends JPanel {
 
     private final JLabel headline = Theme.label(" ", Theme.sans(Font.BOLD, 20), Theme.MUTED);

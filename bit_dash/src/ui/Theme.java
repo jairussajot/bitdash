@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Colours, fonts and small styled widgets shared by all GUI screens. */
+
 final class Theme {
 
     private Theme() {}
@@ -47,9 +47,6 @@ final class Theme {
         return f;
     }
 
-    // ---------------------------------------------------------------------
-
-    /** Rounded button. primary = bright accent fill, otherwise subtle. */
     static class Btn extends JButton {
         private final boolean primary;
 
@@ -87,9 +84,7 @@ final class Theme {
         }
     }
 
-    // ---------------------------------------------------------------------
 
-    /** A row of mutually exclusive buttons (one is always selected). */
     static class ChoiceBar extends JPanel {
         private final List<JToggleButton> buttons = new ArrayList<>();
         private Runnable onChange = () -> {};

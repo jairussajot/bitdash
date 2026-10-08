@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/** Filterable scoreboard. Best score first, ties broken by faster time. */
+
 class ScoreboardPanel extends JPanel {
 
     private static final String[] MODE_FILTERS = { "All", "Binary to Decimal", "Decimal to Binary" };
@@ -39,7 +39,7 @@ class ScoreboardPanel extends JPanel {
         setLayout(new BorderLayout(0, 14));
         setBorder(new EmptyBorder(24, 32, 24, 32));
 
-        // ---- filters ----
+
         JPanel filters = new JPanel();
         filters.setOpaque(false);
         filters.setLayout(new BoxLayout(filters, BoxLayout.Y_AXIS));
@@ -57,7 +57,7 @@ class ScoreboardPanel extends JPanel {
         modeBar.setOnChange(this::filterChanged);
         diffBar.setOnChange(this::filterChanged);
 
-        // ---- table ----
+
         styleTable();
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -73,7 +73,7 @@ class ScoreboardPanel extends JPanel {
         body.add(emptyPanel, "empty");
         add(body, BorderLayout.CENTER);
 
-        // ---- back ----
+
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         buttons.setOpaque(false);
         Theme.Btn back = new Theme.Btn("Back", false);
@@ -85,13 +85,11 @@ class ScoreboardPanel extends JPanel {
         add(buttons, BorderLayout.SOUTH);
     }
 
-    /** A filter button was clicked: click sound, then update the table. */
     private void filterChanged() {
         SoundPlayer.play("scoreboardfilterbuttons.wav");
         refresh();
     }
 
-    /** Re-reads the scores and applies the current filters. */
     void refresh() {
         String mode = MODE_FILTERS[modeBar.getSelectedIndex()];
         String difficulty = DIFF_FILTERS[diffBar.getSelectedIndex()];

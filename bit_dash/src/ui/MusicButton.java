@@ -6,10 +6,10 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
-/** A small button that turns the background music on and off. */
+
 class MusicButton extends Theme.Btn {
 
-    // Every music button that exists (setup screen + game screen), so they all show the same state.
+    
     private static final List<MusicButton> ALL = new ArrayList<>();
 
     MusicButton() {
@@ -17,7 +17,7 @@ class MusicButton extends Theme.Btn {
         setFont(Theme.sans(Font.BOLD, 13));
         setBorder(new EmptyBorder(6, 14, 6, 14));
         setPreferredSize(new Dimension(130, 34));
-        setFocusable(false);   // clicking it must not steal the cursor from the answer box
+        setFocusable(false);   
 
         ALL.add(this);
         refreshText();

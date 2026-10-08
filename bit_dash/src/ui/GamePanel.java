@@ -10,7 +10,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 
-/** The question screen. All rules live in GameSession; this only displays them. */
+
 class GamePanel extends JPanel {
 
     private final MainWindow window;
@@ -33,7 +33,7 @@ class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(20, 32, 24, 32));
 
-        // ---- top bar: question counter, score, time + progress bar ----
+
         JPanel bar = new JPanel(new BorderLayout());
         bar.setOpaque(false);
         bar.add(questionLabel, BorderLayout.WEST);
@@ -56,7 +56,7 @@ class GamePanel extends JPanel {
         top.add(progress, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
 
-        // ---- centre: instruction, big prompt, input, feedback ----
+
         JPanel centre = new JPanel();
         centre.setOpaque(false);
         centre.setLayout(new BoxLayout(centre, BoxLayout.Y_AXIS));
@@ -84,7 +84,7 @@ class GamePanel extends JPanel {
         centre.add(Box.createVerticalGlue());
         add(centre, BorderLayout.CENTER);
 
-        // ---- bottom buttons ----
+
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 0));
         buttons.setOpaque(false);
         Theme.Btn quit = new Theme.Btn("Quit to menu", false);
@@ -101,12 +101,12 @@ class GamePanel extends JPanel {
         add(buttons, BorderLayout.SOUTH);
     }
 
-    /** Called by MainWindow when a new round starts. */
+
     void begin(GameSession newSession) {
         clock.stop();
         this.session = newSession;
 
-        // Only allow characters that make sense for this mode.
+
         boolean binaryAnswer = session.getMode() == GameSession.Mode.DECIMAL_TO_BINARY;
         String allowed = binaryAnswer ? "01" : "0123456789";
         int maxLen = binaryAnswer ? session.getDifficulty().getBits()
@@ -116,7 +116,7 @@ class GamePanel extends JPanel {
         feedbackLabel.setText(" ");
         refresh();
         clock.start();
-        SoundPlayer.startMusic("quiz.wav");   // music starts with the round
+        SoundPlayer.startMusic("quiz.wav");   
         input.requestFocusInWindow();
     }
 
@@ -143,14 +143,14 @@ class GamePanel extends JPanel {
         }
         String text = input.getText().trim();
         if (text.isEmpty()) {
-            return; // ignore an accidental empty Enter
+            return; 
         }
 
         String prompt = session.getPrompt();
         String correct = session.getCorrectAnswer();
         boolean ok = session.submit(text);
 
-        // On the last question, afterround.wav plays instead (see MainWindow.finishGame)
+
         if (!session.isFinished()) {
             SoundPlayer.play(ok ? "correct.wav" : "wrong.wav");
         }
@@ -172,7 +172,7 @@ class GamePanel extends JPanel {
         }
     }
 
-    /** Restricts typing to a set of characters and a maximum length. */
+
     private static class LimitFilter extends DocumentFilter {
         private final String allowed;
         private final int maxLen;
